@@ -2,13 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide scrollbar for a cleaner app-like experience */
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
 
-/* Ensure body takes full height and has dark background for the cover screen */
 body {
   margin: 0;
   min-height: 100vh;
