@@ -202,7 +202,6 @@ const globalStyles = `
   }
 `;
 
-// Component for slow fade up
 const FadeIn = ({ children, delay, className = "" }) => (
   <div
     className={`animate-fade-up ${className}`}
@@ -212,7 +211,6 @@ const FadeIn = ({ children, delay, className = "" }) => (
   </div>
 );
 
-// Component for "Likh ke aane wala" effect
 const TypeReveal = ({ children, delay, className = "" }) => (
   <div
     className={`animate-type-reveal ${className}`}
@@ -226,7 +224,6 @@ const HeavyGoldenRain = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    // 60 particles for intense long rain
     const newParticles = Array.from({ length: 60 }).map((_, i) => {
       const height = Math.floor(Math.random() * 80) + 60; // 60px to 140px long
       return {
@@ -272,7 +269,6 @@ export default function App() {
     return () => styleSheet.remove();
   }, []);
 
-  // --- ENTRY SCREEN ---
   if (!isOpen) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 sm:p-8 font-['Hind'] bg-gradient-to-br from-[#02050a] via-[#0a1128] to-[#02050a] animate-bg-gradient relative overflow-hidden">
@@ -281,20 +277,16 @@ export default function App() {
         <div className="absolute top-0 left-0 w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.2)_0%,_transparent_60%)] blur-[100px] bg-blob-gold pointer-events-none z-0"></div>
         <div className="absolute bottom-0 right-0 w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,_rgba(10,17,40,0.8)_0%,_transparent_60%)] blur-[100px] bg-blob-navy pointer-events-none z-0"></div>
 
-        {/* --- PROPER GLOWING CONIC GRADIENT ROUNDER BOX --- */}
         <div
           onClick={() => setIsOpen(true)}
           className="glowing-border-wrapper w-full max-w-2xl min-h-[500px] sm:min-h-[600px] cursor-pointer group hover:scale-[1.02] transition-transform duration-500"
         >
-          {/* Animated gradient layer hidden inside the border radius */}
           <div className="glowing-gradient-container"></div>
 
           <div className="glowing-inner-content bg-[#060b19]/95 backdrop-blur-3xl flex flex-col items-center justify-center relative p-8 text-center">
-            {/* Soft decorative static dashed lines inside */}
             <div className="absolute inset-0 m-6 border border-dashed border-[#d4af37]/20 rounded-2xl pointer-events-none"></div>
 
             <div className="relative z-10 flex flex-col items-center">
-              {/* Top to Bottom Staggered Entrance */}
               <FadeIn delay={0.5}>
                 <h2 className="font-['Amiri'] text-4xl sm:text-5xl lg:text-6xl text-[#d4af37] drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] mb-8 font-bold text-center tracking-wider">
                   بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
@@ -331,9 +323,7 @@ export default function App() {
     );
   }
 
-  // --- OPENED INVITATION SCREEN ---
   return (
-    // p-3 added for mobile so glow isn't cut off by screen edges
     <div className="min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-10 font-['Hind'] bg-[#02050a] animate-bg-gradient overflow-x-hidden relative hide-scroll">
       <HeavyGoldenRain />
 
@@ -341,14 +331,10 @@ export default function App() {
       <div className="fixed top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.15)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"></div>
       <div className="fixed bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.1)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"></div>
 
-      {/* --- PROPER GLOWING CONIC GRADIENT ON INSIDE PAGE --- */}
       <div className="glowing-border-wrapper w-full max-w-[1400px] z-10 min-h-[90vh] sm:min-h-[85vh] my-0 sm:my-8">
-        {/* Animated gradient layer hidden inside the border radius */}
         <div className="glowing-gradient-container"></div>
 
-        {/* Inner content auto-inherits the border radius via CSS */}
         <div className="glowing-inner-content flex flex-col lg:flex-row bg-transparent">
-          {/* ================= LEFT PANEL ================= */}
           <div className="w-full lg:w-5/12 bg-[#060b19]/90 backdrop-blur-3xl border-b lg:border-b-0 lg:border-r border-[#d4af37]/30 p-6 sm:p-12 lg:p-16 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-[inset_-20px_0_50px_rgba(0,0,0,0.8)] shrink-0 z-20">
             <div
               className="absolute inset-0 opacity-[0.1] pointer-events-none mix-blend-overlay"
@@ -358,13 +344,11 @@ export default function App() {
               }}
             ></div>
 
-            {/* Glowing Corner Accents */}
             <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-[#d4af37] shadow-[-5px_-5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-[#d4af37] shadow-[5px_-5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-[#d4af37] shadow-[-5px_5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-[#d4af37] shadow-[5px_5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
 
-            {/* Slow Staggered Top-to-Bottom Entry */}
             <FadeIn delay={0.5} className="relative z-10 w-full mb-6 sm:mb-8">
               <h2 className="font-['Amiri'] text-3xl sm:text-4xl text-[#d4af37] drop-shadow-[0_0_20px_rgba(212,175,55,0.7)] mb-3">
                 بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
@@ -390,7 +374,6 @@ export default function App() {
             </FadeIn>
 
             <div className="relative z-10 w-full flex flex-col items-center gap-10 sm:gap-12">
-              {/* Couple 1 */}
               <div className="flex flex-col items-center w-full px-2 group cursor-default">
                 <TypeReveal delay={2.5}>
                   <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
@@ -425,7 +408,6 @@ export default function App() {
                 </FadeIn>
               </div>
 
-              {/* Decorative Ampersand */}
               <FadeIn
                 delay={4.5}
                 className="flex items-center justify-center gap-4 sm:gap-8 w-full py-2 px-4"
@@ -439,7 +421,6 @@ export default function App() {
                 <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-50 shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
               </FadeIn>
 
-              {/* Couple 2 */}
               <div className="flex flex-col items-center w-full px-2 group cursor-default">
                 <TypeReveal delay={5.5}>
                   <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
@@ -476,7 +457,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* ================= RIGHT PANEL ================= */}
           <div className="w-full lg:w-7/12 bg-[#fdfbf7]/90 backdrop-blur-3xl p-5 sm:p-10 lg:p-16 flex flex-col relative overflow-y-auto">
             <div
               className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-multiply"
