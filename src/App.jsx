@@ -10,28 +10,23 @@ const globalStyles = `
     100% { background-position: 0% 50%; }
   }
 
-  /* Reveal Top to Bottom with soft fade */
+  /* Slow Reveal Top to Bottom */
   @keyframes fade-slide-up {
     0% { opacity: 0; transform: translateY(40px); }
     100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slow Typing/Wiping effect for "likh ke" appearance */
+  @keyframes typing-reveal {
+    0% { clip-path: inset(0 100% -30% -30%); opacity: 0; }
+    5% { opacity: 1; }
+    100% { clip-path: inset(0 -30% -30% -30%); opacity: 1; }
   }
 
   /* Shimmer effect for Gold Text */
   @keyframes shimmer {
     0% { background-position: -200% center; }
     100% { background-position: 200% center; }
-  }
-
-  /* Expanding Circle Animation */
-  @keyframes circle-expand {
-    0% { transform: scale(0.8); opacity: 0; }
-    50% { opacity: 0.5; box-shadow: 0 0 50px rgba(212,175,55,0.5); }
-    100% { transform: scale(1.2); opacity: 0; }
-  }
-
-  /* Slow Rotate */
-  @keyframes spin-slow {
-    100% { transform: rotate(360deg); }
   }
 
   /* --- LAMBA LAMBA BARRISH (Long Falling Rain Effect) --- */
@@ -50,7 +45,6 @@ const globalStyles = `
 
   .heavy-rain-drop {
     position: absolute;
-    /* Creating a long streak effect */
     background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(212,175,55,0.8) 50%, rgba(255,255,255,1) 100%);
     border-radius: 50%;
     animation: heavy-rain-fall linear infinite;
@@ -88,20 +82,22 @@ const globalStyles = `
     text-shadow: 2px 2px 15px rgba(212,175,55,0.4);
   }
 
-  .text-gold-solid {
-    color: #d4af37;
-    text-shadow: 0 2px 10px rgba(212,175,55,0.5);
-  }
-
   /* Background Utilities */
   .animate-bg-gradient {
     background-size: 200% 200%;
     animation: gradient-bg 15s ease infinite;
   }
 
+  /* Slow Fade Up */
   .animate-fade-up {
     opacity: 0;
-    animation: fade-slide-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fade-slide-up 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Typing Reveal Effect */
+  .animate-type-reveal {
+    opacity: 0;
+    animation: typing-reveal 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
   .bg-blob-gold { animation: float-blob 18s ease-in-out infinite; }
@@ -111,70 +107,88 @@ const globalStyles = `
   .hide-scroll::-webkit-scrollbar { width: 0px; background: transparent; }
   .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* --- ULTRA PREMIUM GLOWING CONIC FRAME --- */
-  .premium-frame {
+
+  /* ========================================================= */
+  /* --- PROPER GLOWING CONIC GRADIENT BORDER FOR ROUNDER BOX --- */
+  /* ========================================================= */
+  
+  .glowing-border-wrapper {
     position: relative;
-    border-radius: 1.5rem;
-    padding: 4px; /* Thicker border */
-    background: rgba(6, 11, 25, 0.4);
+    /* Thicker padding ensures border is highly visible on mobile & desktop */
+    padding: 4px; 
     z-index: 10;
+    border-radius: 2rem; /* Exact rounding ensures it never falls back to square */
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.25), 0 25px 70px rgba(0, 0, 0, 0.8);
+    transition: all 0.5s ease;
   }
 
-  /* The sharp spinning border */
-  .premium-frame::before {
-    content: '';
+  .glowing-border-wrapper:hover {
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.5), 0 30px 90px rgba(0, 0, 0, 0.9);
+  }
+
+  /* The container that hides the overflowing gradient to keep it perfectly round */
+  .glowing-gradient-container {
     position: absolute;
-    inset: -4px;
-    border-radius: 1.6rem;
-    background: conic-gradient(from 0deg, transparent 10%, rgba(212,175,55,0.8) 30%, #fff 50%, rgba(212,175,55,0.8) 70%, transparent 90%);
-    animation: spin-conic 5s linear infinite;
+    inset: 0;
+    border-radius: 2rem; /* Matches wrapper perfectly */
+    overflow: hidden;
     z-index: -1;
   }
 
-  /* The outer glowing aura */
-  .premium-frame::after {
+  /* The actual spinning gradient line */
+  .glowing-gradient-container::before {
     content: '';
     position: absolute;
-    inset: -4px;
-    border-radius: 1.6rem;
-    background: conic-gradient(from 0deg, transparent 10%, rgba(212,175,55,0.8) 30%, #fff 50%, rgba(212,175,55,0.8) 70%, transparent 90%);
-    animation: spin-conic 5s linear infinite;
-    z-index: -2;
-    filter: blur(25px); /* Massive glow effect */
-    opacity: 0.85;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 75%, rgba(212,175,55,0.9) 85%, #fff 95%, transparent 100%);
+    animation: spin-conic 12s linear infinite; /* Slowed down beautifully */
   }
 
-  .premium-frame-inner {
+  /* Outer glow aura for the border (Blurred effect) */
+  .glowing-gradient-container::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 75%, rgba(212,175,55,0.9) 85%, #fff 95%, transparent 100%);
+    animation: spin-conic 12s linear infinite; /* Slowed down beautifully */
+    filter: blur(15px);
+    opacity: 0.7;
+  }
+
+  /* Inner Content Container */
+  .glowing-inner-content {
     position: relative;
     z-index: 1;
-    border-radius: calc(1.5rem - 4px);
+    border-radius: calc(2rem - 4px); /* Perfectly traces the outer roundness minus padding */
     overflow: hidden;
     height: 100%;
     width: 100%;
-    /* Glassmorphism base for the entire frame */
-    background: rgba(10, 17, 40, 0.3);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
   }
 
   /* --- GLASSMORPHISM HOVER CARDS --- */
   .premium-card {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    background: rgba(255, 255, 255, 0.7); /* Translucent white */
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px 0 rgba(10, 17, 40, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 40px 0 rgba(10, 17, 40, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 1.5rem; /* Ensures individual inner cards are also beautifully round */
     position: relative;
     z-index: 1;
   }
   
   @media (hover: hover) {
     .premium-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      /* Massive golden shadow on hover + brighter glass */
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 30px 60px -15px rgba(212, 175, 55, 0.4), 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      transform: translateY(-12px) scale(1.03);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 40px 90px -10px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4), inset 0 0 0 2px rgba(212, 175, 55, 0.8);
       border-color: rgba(212, 175, 55, 1);
       z-index: 20;
     }
@@ -188,6 +202,7 @@ const globalStyles = `
   }
 `;
 
+// Component for slow fade up
 const FadeIn = ({ children, delay, className = "" }) => (
   <div
     className={`animate-fade-up ${className}`}
@@ -197,21 +212,21 @@ const FadeIn = ({ children, delay, className = "" }) => (
   </div>
 );
 
-const CircleDecoration = ({ delay, className }) => (
+// Component for "Likh ke aane wala" effect
+const TypeReveal = ({ children, delay, className = "" }) => (
   <div
-    className={`absolute rounded-full border-[2px] border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.3)] ${className}`}
-    style={{
-      animationDelay: `${delay}s`,
-      borderStyle: "dashed",
-      pointerEvents: "none",
-    }}
-  ></div>
+    className={`animate-type-reveal ${className}`}
+    style={{ animationDelay: `${delay}s` }}
+  >
+    {children}
+  </div>
 );
 
 const HeavyGoldenRain = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
+    // 60 particles for intense long rain
     const newParticles = Array.from({ length: 60 }).map((_, i) => {
       const height = Math.floor(Math.random() * 80) + 60; // 60px to 140px long
       return {
@@ -257,6 +272,7 @@ export default function App() {
     return () => styleSheet.remove();
   }, []);
 
+  // --- ENTRY SCREEN ---
   if (!isOpen) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 sm:p-8 font-['Hind'] bg-gradient-to-br from-[#02050a] via-[#0a1128] to-[#02050a] animate-bg-gradient relative overflow-hidden">
@@ -265,44 +281,49 @@ export default function App() {
         <div className="absolute top-0 left-0 w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.2)_0%,_transparent_60%)] blur-[100px] bg-blob-gold pointer-events-none z-0"></div>
         <div className="absolute bottom-0 right-0 w-[80vw] h-[80vw] rounded-full bg-[radial-gradient(circle,_rgba(10,17,40,0.8)_0%,_transparent_60%)] blur-[100px] bg-blob-navy pointer-events-none z-0"></div>
 
+        {/* --- PROPER GLOWING CONIC GRADIENT ROUNDER BOX --- */}
         <div
           onClick={() => setIsOpen(true)}
-          className="premium-frame w-full max-w-2xl min-h-[500px] sm:min-h-[600px] cursor-pointer group hover:scale-[1.02] transition-transform duration-500"
+          className="glowing-border-wrapper w-full max-w-2xl min-h-[500px] sm:min-h-[600px] cursor-pointer group hover:scale-[1.02] transition-transform duration-500"
         >
-          <div className="premium-frame-inner bg-gradient-to-b from-[#060b19]/60 to-[#0a1128]/80 backdrop-blur-3xl flex flex-col items-center justify-center relative shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] p-8 text-center overflow-hidden border border-[#d4af37]/30">
-            <CircleDecoration
-              delay={0}
-              className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] border-opacity-40 animate-[spin-slow_20s_linear_infinite]"
-            />
-            <CircleDecoration
-              delay={0.3}
-              className="w-[280px] h-[280px] sm:w-[460px] sm:h-[460px] border-opacity-50 border-solid animate-[spin-slow_15s_linear_infinite_reverse]"
-            />
+          {/* Animated gradient layer hidden inside the border radius */}
+          <div className="glowing-gradient-container"></div>
+
+          <div className="glowing-inner-content bg-[#060b19]/95 backdrop-blur-3xl flex flex-col items-center justify-center relative p-8 text-center">
+            {/* Soft decorative static dashed lines inside */}
+            <div className="absolute inset-0 m-6 border border-dashed border-[#d4af37]/20 rounded-2xl pointer-events-none"></div>
 
             <div className="relative z-10 flex flex-col items-center">
-              <FadeIn delay={0.1}>
+              {/* Top to Bottom Staggered Entrance */}
+              <FadeIn delay={0.5}>
                 <h2 className="font-['Amiri'] text-4xl sm:text-5xl lg:text-6xl text-[#d4af37] drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] mb-8 font-bold text-center tracking-wider">
                   بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
                 </h2>
               </FadeIn>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-['Cinzel'] text-metallic-gold mb-4 tracking-[0.2em] font-extrabold group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(212,175,55,0.8)] transition-all duration-700 ease-out">
-                DAWAT-E-WALIMA
-              </h1>
+              <TypeReveal delay={1.5}>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-['Cinzel'] text-metallic-gold mb-4 tracking-[0.2em] font-extrabold group-hover:scale-105 group-hover:drop-shadow-[0_0_30px_rgba(212,175,55,0.8)] transition-all duration-700 ease-out">
+                  DAWAT-E-WALIMA
+                </h1>
+              </TypeReveal>
 
-              <p className="text-[#e8dfd5] font-['Hind'] tracking-[0.25em] text-xs sm:text-sm uppercase mb-12 opacity-90 font-bold leading-relaxed px-4 drop-shadow-md">
-                The Wedding of
-                <br className="sm:hidden" />
-                <span className="hidden sm:inline"> </span>
-                Samshad Ahmad Khan & Mohd Hashim Khan
-              </p>
+              <FadeIn delay={2.5}>
+                <p className="text-[#e8dfd5] font-['Hind'] tracking-[0.25em] text-xs sm:text-sm uppercase mb-12 opacity-90 font-bold leading-relaxed px-4 drop-shadow-md">
+                  The Wedding of
+                  <br className="sm:hidden" />
+                  <span className="hidden sm:inline"> </span>
+                  Samshad Ahmad Khan & Mohd Hashim Khan
+                </p>
+              </FadeIn>
 
-              <button className="relative px-12 py-4 bg-gradient-to-b from-[#1a2952]/80 to-[#0a1128]/90 backdrop-blur-md border-2 border-[#d4af37] rounded-full overflow-hidden group/btn shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:shadow-[0_0_50px_rgba(212,175,55,0.8)] transition-all duration-500 hover:-translate-y-2">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.5)] to-transparent -translate-x-[200%] group-hover/btn:animate-[shimmer_2s_infinite]"></div>
-                <span className="relative z-10 text-[#fff] font-['Cinzel'] font-bold uppercase tracking-[0.2em] text-sm sm:text-base drop-shadow-[0_0_10px_rgba(212,175,55,1)]">
-                  Open Invitation
-                </span>
-              </button>
+              <FadeIn delay={3.5}>
+                <button className="relative px-12 py-4 bg-gradient-to-b from-[#1a2952] to-[#0a1128] border-2 border-[#d4af37] rounded-full overflow-hidden group/btn shadow-[0_0_40px_rgba(212,175,55,0.6)] hover:shadow-[0_0_80px_rgba(212,175,55,1)] transition-all duration-500 hover:-translate-y-2">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.5)] to-transparent -translate-x-[200%] group-hover/btn:animate-[shimmer_2s_infinite]"></div>
+                  <span className="relative z-10 text-[#fff] font-['Cinzel'] font-bold uppercase tracking-[0.2em] text-sm sm:text-base drop-shadow-[0_0_15px_rgba(212,175,55,1)]">
+                    Open Invitation
+                  </span>
+                </button>
+              </FadeIn>
             </div>
           </div>
         </div>
@@ -310,17 +331,25 @@ export default function App() {
     );
   }
 
+  // --- OPENED INVITATION SCREEN ---
   return (
-    <div className="min-h-screen flex items-center justify-center p-0 sm:p-6 lg:p-10 font-['Hind'] bg-[#02050a] animate-bg-gradient overflow-x-hidden relative hide-scroll">
+    // p-3 added for mobile so glow isn't cut off by screen edges
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-6 lg:p-10 font-['Hind'] bg-[#02050a] animate-bg-gradient overflow-x-hidden relative hide-scroll">
       <HeavyGoldenRain />
 
       <div className="fixed top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(10,17,40,0.9)_0%,_#02050a_100%)] pointer-events-none z-0"></div>
       <div className="fixed top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.15)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"></div>
       <div className="fixed bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle,_rgba(212,175,55,0.1)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"></div>
 
-      <div className="premium-frame w-full max-w-[1400px] z-10 min-h-screen sm:min-h-[85vh] sm:rounded-3xl rounded-none">
-        <div className="premium-frame-inner flex flex-col lg:flex-row bg-transparent sm:rounded-3xl rounded-none">
-          <div className="w-full lg:w-5/12 bg-[#060b19]/60 backdrop-blur-3xl border-b lg:border-b-0 lg:border-r border-[#d4af37]/30 p-6 sm:p-12 lg:p-16 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-[inset_-20px_0_50px_rgba(0,0,0,0.8)] shrink-0 z-20">
+      {/* --- PROPER GLOWING CONIC GRADIENT ON INSIDE PAGE --- */}
+      <div className="glowing-border-wrapper w-full max-w-[1400px] z-10 min-h-[90vh] sm:min-h-[85vh] my-0 sm:my-8">
+        {/* Animated gradient layer hidden inside the border radius */}
+        <div className="glowing-gradient-container"></div>
+
+        {/* Inner content auto-inherits the border radius via CSS */}
+        <div className="glowing-inner-content flex flex-col lg:flex-row bg-transparent">
+          {/* ================= LEFT PANEL ================= */}
+          <div className="w-full lg:w-5/12 bg-[#060b19]/90 backdrop-blur-3xl border-b lg:border-b-0 lg:border-r border-[#d4af37]/30 p-6 sm:p-12 lg:p-16 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-[inset_-20px_0_50px_rgba(0,0,0,0.8)] shrink-0 z-20">
             <div
               className="absolute inset-0 opacity-[0.1] pointer-events-none mix-blend-overlay"
               style={{
@@ -329,12 +358,14 @@ export default function App() {
               }}
             ></div>
 
+            {/* Glowing Corner Accents */}
             <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-[#d4af37] shadow-[-5px_-5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-[#d4af37] shadow-[5px_-5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-[#d4af37] shadow-[-5px_5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
             <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-[#d4af37] shadow-[5px_5px_15px_rgba(212,175,55,0.5)] opacity-80"></div>
 
-            <FadeIn delay={0.2} className="relative z-10 w-full mb-6 sm:mb-8">
+            {/* Slow Staggered Top-to-Bottom Entry */}
+            <FadeIn delay={0.5} className="relative z-10 w-full mb-6 sm:mb-8">
               <h2 className="font-['Amiri'] text-3xl sm:text-4xl text-[#d4af37] drop-shadow-[0_0_20px_rgba(212,175,55,0.7)] mb-3">
                 بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
               </h2>
@@ -344,7 +375,7 @@ export default function App() {
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.4} className="relative z-10 mb-8 sm:mb-12 w-full">
+            <FadeIn delay={1.5} className="relative z-10 mb-8 sm:mb-12 w-full">
               <p className="text-[#d4af37] text-xl sm:text-2xl font-['Cinzel'] font-extrabold tracking-[0.2em] px-2 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
                 MRS. & MR. ABUBAKAR KHAN
               </p>
@@ -359,35 +390,44 @@ export default function App() {
             </FadeIn>
 
             <div className="relative z-10 w-full flex flex-col items-center gap-10 sm:gap-12">
+              {/* Couple 1 */}
+              <div className="flex flex-col items-center w-full px-2 group cursor-default">
+                <TypeReveal delay={2.5}>
+                  <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
+                    Samshad Ahmad Khan
+                  </h3>
+                </TypeReveal>
+
+                <FadeIn delay={3.0}>
+                  <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase mb-5 text-center drop-shadow-md">
+                    (S/O Mr. Abubakar Khan)
+                  </p>
+
+                  <div className="flex items-center gap-4 w-full justify-center opacity-100 mb-5">
+                    <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-r from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
+                    <span className="font-['Cinzel'] text-[#fff] text-sm sm:text-base font-extrabold tracking-[0.4em] drop-shadow-[0_0_10px_rgba(212,175,55,1)]">
+                      WEDS
+                    </span>
+                    <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-l from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
+                  </div>
+                </FadeIn>
+
+                <TypeReveal delay={3.5}>
+                  <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-[#fff8d6] drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:text-metallic-gold transition-all duration-500 text-center w-full whitespace-normal">
+                    Naziya Khan
+                  </h3>
+                </TypeReveal>
+
+                <FadeIn delay={4.0}>
+                  <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase text-center drop-shadow-md mt-2">
+                    (D/O Mr. Mohd Saeed Ahmad)
+                  </p>
+                </FadeIn>
+              </div>
+
+              {/* Decorative Ampersand */}
               <FadeIn
-                delay={0.6}
-                className="flex flex-col items-center w-full px-2 group cursor-default"
-              >
-                <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
-                  Samshad Ahmad Khan
-                </h3>
-                <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase mb-5 text-center drop-shadow-md">
-                  (S/O Mr. Abubakar Khan)
-                </p>
-
-                <div className="flex items-center gap-4 w-full justify-center opacity-100 mb-5">
-                  <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-r from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
-                  <span className="font-['Cinzel'] text-[#fff] text-sm sm:text-base font-extrabold tracking-[0.4em] drop-shadow-[0_0_10px_rgba(212,175,55,1)]">
-                    WEDS
-                  </span>
-                  <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-l from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
-                </div>
-
-                <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-[#fff8d6] drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:text-metallic-gold transition-all duration-500 text-center w-full whitespace-normal">
-                  Naziya Khan
-                </h3>
-                <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase text-center drop-shadow-md mt-2">
-                  (D/O Mr. Mohd Saeed Ahmad)
-                </p>
-              </FadeIn>
-
-              <FadeIn
-                delay={0.8}
+                delay={4.5}
                 className="flex items-center justify-center gap-4 sm:gap-8 w-full py-2 px-4"
               >
                 <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-50 shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
@@ -399,36 +439,45 @@ export default function App() {
                 <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-50 shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
               </FadeIn>
 
-              <FadeIn
-                delay={1.0}
-                className="flex flex-col items-center w-full px-2 group cursor-default"
-              >
-                <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
-                  Mohd. Hashim Khan
-                </h3>
-                <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase mb-5 text-center drop-shadow-md">
-                  (S/O Mr. Abubakar Khan)
-                </p>
+              {/* Couple 2 */}
+              <div className="flex flex-col items-center w-full px-2 group cursor-default">
+                <TypeReveal delay={5.5}>
+                  <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-metallic-gold mb-2 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.8)] transition-all duration-500 text-center w-full whitespace-normal">
+                    Mohd. Hashim Khan
+                  </h3>
+                </TypeReveal>
 
-                <div className="flex items-center gap-4 w-full justify-center opacity-100 mb-5">
-                  <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-r from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
-                  <span className="font-['Cinzel'] text-[#fff] text-sm sm:text-base font-extrabold tracking-[0.4em] drop-shadow-[0_0_10px_rgba(212,175,55,1)]">
-                    WEDS
-                  </span>
-                  <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-l from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
-                </div>
+                <FadeIn delay={6.0}>
+                  <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase mb-5 text-center drop-shadow-md">
+                    (S/O Mr. Abubakar Khan)
+                  </p>
 
-                <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-[#fff8d6] drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:text-metallic-gold transition-all duration-500 text-center w-full whitespace-normal">
-                  Shabana Khan
-                </h3>
-                <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase text-center px-4 drop-shadow-md mt-2">
-                  (D/O Mohd. Ilyas Khan, Parsawna)
-                </p>
-              </FadeIn>
+                  <div className="flex items-center gap-4 w-full justify-center opacity-100 mb-5">
+                    <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-r from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
+                    <span className="font-['Cinzel'] text-[#fff] text-sm sm:text-base font-extrabold tracking-[0.4em] drop-shadow-[0_0_10px_rgba(212,175,55,1)]">
+                      WEDS
+                    </span>
+                    <div className="h-[2px] w-12 sm:w-20 bg-gradient-to-l from-transparent to-[#d4af37] shadow-[0_0_10px_#d4af37]"></div>
+                  </div>
+                </FadeIn>
+
+                <TypeReveal delay={6.5}>
+                  <h3 className="font-['Great_Vibes'] text-[3rem] min-[400px]:text-[3.5rem] sm:text-[4.5rem] lg:text-[5rem] leading-[1.1] text-[#fff8d6] drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] group-hover:scale-105 group-hover:text-metallic-gold transition-all duration-500 text-center w-full whitespace-normal">
+                    Shabana Khan
+                  </h3>
+                </TypeReveal>
+
+                <FadeIn delay={7.0}>
+                  <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase text-center px-4 drop-shadow-md mt-2">
+                    (D/O Mohd. Ilyas Khan, Parsawna)
+                  </p>
+                </FadeIn>
+              </div>
             </div>
           </div>
 
-          <div className="w-full lg:w-7/12 bg-[#fdfbf7]/85 backdrop-blur-2xl p-5 sm:p-10 lg:p-16 flex flex-col relative overflow-y-auto">
+          {/* ================= RIGHT PANEL ================= */}
+          <div className="w-full lg:w-7/12 bg-[#fdfbf7]/90 backdrop-blur-3xl p-5 sm:p-10 lg:p-16 flex flex-col relative overflow-y-auto">
             <div
               className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-multiply"
               style={{
@@ -438,7 +487,7 @@ export default function App() {
             ></div>
 
             <FadeIn
-              delay={1.2}
+              delay={2.5}
               className="mb-8 sm:mb-12 relative z-10 shrink-0 mt-4 sm:mt-0"
             >
               <div className="flex items-center gap-4 mb-2">
@@ -453,13 +502,13 @@ export default function App() {
             </FadeIn>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-10 sm:mb-12 relative z-10 shrink-0">
-              <FadeIn delay={1.4}>
+              <FadeIn delay={3.5}>
                 <div className="premium-card p-6 sm:p-8 rounded-2xl h-full relative group">
                   <div className="absolute left-0 top-6 bottom-6 w-2 rounded-r-lg bg-gradient-to-b from-[#d4af37] via-[#fdf5c9] to-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.8)]"></div>
-                  <h3 className="font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
+                  <h3 className="relative z-10 font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
                     Barat of Samshad Ahmad Khan
                   </h3>
-                  <div className="pl-5 space-y-4">
+                  <div className="relative z-10 pl-5 space-y-4">
                     <div className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-800 font-semibold">
                       <svg
                         className="w-5 h-5 sm:w-6 sm:h-6 text-[#d4af37] mt-1 shrink-0 drop-shadow-sm"
@@ -499,13 +548,13 @@ export default function App() {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={1.5}>
+              <FadeIn delay={4.5}>
                 <div className="premium-card p-6 sm:p-8 rounded-2xl h-full relative group">
                   <div className="absolute left-0 top-6 bottom-6 w-2 rounded-r-lg bg-gradient-to-b from-[#d4af37] via-[#fdf5c9] to-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.8)]"></div>
-                  <h3 className="font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
+                  <h3 className="relative z-10 font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
                     Barat of Mohd. Hashim Khan
                   </h3>
-                  <div className="pl-5 space-y-4">
+                  <div className="relative z-10 pl-5 space-y-4">
                     <div className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-800 font-semibold">
                       <svg
                         className="w-5 h-5 sm:w-6 sm:h-6 text-[#d4af37] mt-1 shrink-0 drop-shadow-sm"
@@ -545,12 +594,12 @@ export default function App() {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={1.6} className="md:col-span-2">
+              <FadeIn delay={5.5} className="md:col-span-2">
                 <div className="premium-card p-6 sm:p-12 rounded-3xl relative group border-2 border-[#d4af37] overflow-hidden">
                   <div className="absolute -right-10 -top-10 w-64 h-64 bg-[radial-gradient(circle,_rgba(212,175,55,0.2)_0%,_transparent_70%)] rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
 
                   <div className="relative z-10 text-center sm:text-left flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
-                    <div className="hidden sm:flex w-20 h-20 rounded-full bg-[#060b19] items-center justify-center shrink-0 shadow-[0_0_30px_rgba(212,175,55,0.5)] border-[3px] border-[#d4af37] group-hover:rotate-12 transition-transform duration-500">
+                    <div className="hidden sm:flex w-20 h-20 rounded-full bg-[#060b19] items-center justify-center shrink-0 shadow-[0_0_40px_rgba(212,175,55,0.7)] border-[3px] border-[#d4af37] group-hover:rotate-12 group-hover:shadow-[0_0_60px_rgba(212,175,55,1)] transition-all duration-500">
                       <svg
                         className="w-10 h-10 text-[#d4af37]"
                         fill="none"
@@ -627,17 +676,17 @@ export default function App() {
             </div>
 
             <FadeIn
-              delay={1.8}
+              delay={6.5}
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 relative z-10 shrink-0 mb-10 sm:mb-14"
             >
               <div className="premium-card p-6 sm:p-10 rounded-2xl group border-[#d4af37]/40 hover:border-[#d4af37]">
-                <h3 className="font-['Cinzel'] text-lg sm:text-xl font-extrabold text-[#060b19] mb-5 sm:mb-6 flex items-center gap-3 border-b-2 border-gray-200/50 pb-4 group-hover:border-[#d4af37] transition-colors">
+                <h3 className="relative z-10 font-['Cinzel'] text-lg sm:text-xl font-extrabold text-[#060b19] mb-5 sm:mb-6 flex items-center gap-3 border-b-2 border-gray-200/50 pb-4 group-hover:border-[#d4af37] transition-colors">
                   <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#060b19] text-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.5)] flex items-center justify-center text-sm sm:text-base group-hover:rotate-180 transition-transform duration-700">
                     ✦
                   </span>
                   R.S.V.P:
                 </h3>
-                <div className="text-sm sm:text-base leading-loose text-gray-800 font-bold space-y-3">
+                <div className="relative z-10 text-sm sm:text-base leading-loose text-gray-800 font-bold space-y-3">
                   <p className="hover:text-[#d4af37] hover:translate-x-2 transition-all duration-300">
                     MASTER ABDUL MAJEED KHAN
                   </p>
@@ -654,13 +703,13 @@ export default function App() {
               </div>
 
               <div className="premium-card p-6 sm:p-10 rounded-2xl group border-[#d4af37]/40 hover:border-[#d4af37]">
-                <h3 className="font-['Cinzel'] text-lg sm:text-xl font-extrabold text-[#060b19] mb-5 sm:mb-6 flex items-center gap-3 border-b-2 border-gray-200/50 pb-4 group-hover:border-[#d4af37] transition-colors">
+                <h3 className="relative z-10 font-['Cinzel'] text-lg sm:text-xl font-extrabold text-[#060b19] mb-5 sm:mb-6 flex items-center gap-3 border-b-2 border-gray-200/50 pb-4 group-hover:border-[#d4af37] transition-colors">
                   <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#060b19] text-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.5)] flex items-center justify-center text-sm sm:text-base group-hover:rotate-180 transition-transform duration-700">
                     ✦
                   </span>
                   W.B.C.F:
                 </h3>
-                <div className="text-sm sm:text-base leading-loose text-gray-800 font-bold space-y-4">
+                <div className="relative z-10 text-sm sm:text-base leading-loose text-gray-800 font-bold space-y-4">
                   <p className="hover:text-[#d4af37] hover:translate-x-2 transition-all duration-300">
                     SADDAM HUSAIN KHAN
                     <br />
@@ -682,8 +731,8 @@ export default function App() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={2.0} className="mt-auto relative z-10 shrink-0">
-              <div className="relative p-8 sm:p-12 rounded-3xl bg-[#060b19]/80 backdrop-blur-2xl text-white shadow-[0_20px_50px_rgba(10,17,40,0.8)] overflow-hidden border-2 border-[#d4af37] hover:shadow-[0_20px_60px_rgba(212,175,55,0.4)] transition-shadow duration-500">
+            <FadeIn delay={7.5} className="mt-auto relative z-10 shrink-0">
+              <div className="relative p-8 sm:p-12 rounded-3xl bg-[#060b19]/90 backdrop-blur-2xl text-white shadow-[0_25px_60px_rgba(10,17,40,0.9)] overflow-hidden border-2 border-[#d4af37] hover:shadow-[0_30px_80px_rgba(212,175,55,0.6)] transition-all duration-500 hover:-translate-y-2">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-[radial-gradient(circle,_rgba(212,175,55,0.25)_0%,_transparent_70%)] rounded-full -translate-y-1/2 translate-x-1/4"></div>
                 <div className="absolute bottom-0 left-0 w-60 h-60 bg-[radial-gradient(circle,_rgba(212,175,55,0.2)_0%,_transparent_70%)] rounded-full translate-y-1/2 -translate-x-1/4"></div>
 
@@ -701,7 +750,7 @@ export default function App() {
                     <p className="text-sm sm:text-lg text-[#e8dfd5] leading-relaxed tracking-wider sm:tracking-widest font-semibold opacity-90 drop-shadow-md">
                       Gauhahiya Taj, Post-Bhawaniganj (U.P)
                     </p>
-                    <div className="inline-flex items-center justify-center md:justify-end gap-3 mt-4 sm:mt-5 px-6 sm:px-8 py-3 bg-[#0a1128]/80 backdrop-blur-md rounded-full border-2 border-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.8)] hover:-translate-y-1 transition-all duration-300 w-full md:w-auto cursor-pointer">
+                    <div className="inline-flex items-center justify-center md:justify-end gap-3 mt-4 sm:mt-5 px-6 sm:px-8 py-3 bg-[#0a1128]/80 backdrop-blur-md rounded-full border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:shadow-[0_0_50px_rgba(212,175,55,1)] hover:-translate-y-1 transition-all duration-300 w-full md:w-auto cursor-pointer">
                       <svg
                         className="w-5 h-5 sm:w-6 sm:h-6 text-[#d4af37]"
                         fill="none"
