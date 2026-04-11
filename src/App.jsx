@@ -450,7 +450,7 @@ export default function App() {
 
                 <FadeIn delay={7.0}>
                   <p className="text-xs sm:text-sm text-[#d4af37] font-bold tracking-[0.2em] uppercase text-center px-4 drop-shadow-md mt-2">
-                    (D/O Mohd. Ilyas Khan, Parsawna)
+                    (D/O Mohd. Ilyas Khan Parsawna)
                   </p>
                 </FadeIn>
               </div>
@@ -472,7 +472,7 @@ export default function App() {
             >
               <div className="flex items-center gap-4 mb-2">
                 <h2 className="font-['Cinzel'] text-3xl sm:text-5xl font-extrabold text-[#060b19] tracking-wider drop-shadow-md">
-                  PROGRAMME
+                  PROGRAM
                 </h2>
                 <div className="flex-1 h-[3px] bg-gradient-to-r from-[#d4af37] to-transparent opacity-80 shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
               </div>
@@ -486,7 +486,7 @@ export default function App() {
                 <div className="premium-card p-6 sm:p-8 rounded-2xl h-full relative group">
                   <div className="absolute left-0 top-6 bottom-6 w-2 rounded-r-lg bg-gradient-to-b from-[#d4af37] via-[#fdf5c9] to-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.8)]"></div>
                   <h3 className="relative z-10 font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
-                    Barat of Samshad Ahmad Khan
+                    Barat of Samshad Khan
                   </h3>
                   <div className="relative z-10 pl-5 space-y-4">
                     <div className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-800 font-semibold">
@@ -532,7 +532,7 @@ export default function App() {
                 <div className="premium-card p-6 sm:p-8 rounded-2xl h-full relative group">
                   <div className="absolute left-0 top-6 bottom-6 w-2 rounded-r-lg bg-gradient-to-b from-[#d4af37] via-[#fdf5c9] to-[#d4af37] shadow-[0_0_15px_rgba(212,175,55,0.8)]"></div>
                   <h3 className="relative z-10 font-['Cinzel'] font-bold text-xl sm:text-2xl text-[#060b19] mb-4 group-hover:text-[#b58e2a] transition-colors pl-5">
-                    Barat of Mohd. Hashim Khan
+                    Barat of Hashim Khan
                   </h3>
                   <div className="relative z-10 pl-5 space-y-4">
                     <div className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-800 font-semibold">
@@ -645,7 +645,7 @@ export default function App() {
                             <strong className="text-[#060b19] font-extrabold block sm:inline">
                               Venue:
                             </strong>{" "}
-                            Gachaniya Taj, Post-Bhawaniganj
+                            Gauhaniya Taj, Post-Bhawani ganj
                           </span>
                         </div>
                       </div>
@@ -728,7 +728,7 @@ export default function App() {
 
                   <div className="md:text-right border-t-2 md:border-t-0 md:border-l-2 border-[#d4af37]/40 pt-6 md:pt-0 md:pl-10 w-full md:w-auto">
                     <p className="text-sm sm:text-lg text-[#e8dfd5] leading-relaxed tracking-wider sm:tracking-widest font-semibold opacity-90 drop-shadow-md">
-                      Gauhahiya Taj, Post-Bhawaniganj (U.P)
+                      Gauhaniya Taj, Post-Bhawani ganj (U.P)
                     </p>
                     <div className="inline-flex items-center justify-center md:justify-end gap-3 mt-4 sm:mt-5 px-6 sm:px-8 py-3 bg-[#0a1128]/80 backdrop-blur-md rounded-full border-2 border-[#d4af37] shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:shadow-[0_0_50px_rgba(212,175,55,1)] hover:-translate-y-1 transition-all duration-300 w-full md:w-auto cursor-pointer">
                       <svg
