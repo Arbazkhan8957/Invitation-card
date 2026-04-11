@@ -618,7 +618,7 @@ export default function App() {
                               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                             ></path>
                           </svg>
-                          Dinner at 11:00 am Onwards
+                          Lunch at 11:00 am Onwards
                         </div>
                         <div className="hidden sm:block w-[2px] h-8 bg-gray-200"></div>
                         <div className="flex items-start gap-3 w-full sm:w-auto mt-2 sm:mt-0 pt-3 sm:pt-0 border-t sm:border-0 border-gray-200/50">
